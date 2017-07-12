@@ -2,30 +2,21 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 
 const hotelsApp = express();
+var Helpers = require("./helpers");
 var AutomaticDatabaseActions = require("./api/dao/AutomaticDatabaseActions.js");
 
-hotelsApp.use("/styles", express.static(__dirname + "/public/styles/"));
-hotelsApp.use("/hotelsApp", express.static(__dirname + "/public/"));
+hotelsApp.use("/styles", express.static(__dirname + "/public/resources/styles/"));
+hotelsApp.use("/fonts", express.static(__dirname + "/public/resources/fonts/"));
+hotelsApp.use("/images", express.static(__dirname + "/public/resources/images/"));
+hotelsApp.use("/main", express.static(__dirname + "/public/"));
 hotelsApp.use("/utils", express.static(__dirname + "/public/utils/"));
 
-hotelsApp.get("/", function(request, response) {
+var projectHelpers = new Helpers();
+var pagesFolderPath = __dirname + "/public/pages/"
 
-	var options = {
-		root: __dirname + "/public/pages/",
-		headers: {
-			"x-timestamp": Date.now(),
-			"x-sent": true
-		}
-	}
-
-	var filename = "index.html";
-	response.sendFile(filename, options, function(err) {
-		if(err)
-			console.log(err);
-		else
-			console.log("Sent File: " + filename);
-	});
-});
+hotelsApp.get("/", (request, response) => projectHelpers.sendIndexPage(request, response, pagesFolderPath));
+hotelsApp.get("/hotels", (request, response) => projectHelpers.sendIndexPage(request, response, pagesFolderPath));
+hotelsApp.get("/hotel/:id", (request, response) => projectHelpers.sendIndexPage(request, response, pagesFolderPath));
 
 hotelsApp.get("/initDatabase", function(request, response) {
 

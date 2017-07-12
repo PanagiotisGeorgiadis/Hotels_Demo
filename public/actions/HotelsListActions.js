@@ -1,0 +1,5 @@
+export const GET_HOTELS_LIST = "GET/HOTELS_LIST";
+export const DRAW_HOTELS_LIST = "DRAW/HOTELS_LIST";
+
+
+

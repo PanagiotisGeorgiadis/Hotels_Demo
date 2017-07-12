@@ -1,0 +1,252 @@
+body {
+
+	margin: 0;
+	padding: 0;
+	font-family: "Arial";
+}
+
+.hotels_list {
+
+	width: 80%;
+	margin: auto;
+	padding: 1em;
+
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+
+	border-radius: 5px;
+	border: 1px solid gray;
+	background-color: white;
+}
+
+.hotel_list_item {
+
+	width: 400px;
+	margin: 1em 0;
+
+	display: flex;
+	flex-direction: column;
+
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: 1px solid #a6a6a6;
+}
+
+.image_container {
+
+	width: 400px;
+	height: 400px;
+
+	background-size: cover;
+	cursor: pointer;
+}
+
+/**********************************************************************/
+/******************* Start Image Overflow Window **********************/
+/**********************************************************************/
+
+.title_and_price_container {
+
+	width: 100%;
+	height: 6.5em;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+
+	color: rgba(255, 255, 255, 0.9);
+	background-color: rgba(0, 0, 0, 0.6);
+
+	margin-top: -6.5em;
+}
+
+.title_and_price_container:hover {
+
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.title_container {
+
+	max-width: 65%;
+	padding-left: 5px;
+
+	cursor: pointer;
+}
+
+.title_container:hover {
+
+	color: rgba(254, 186, 2, 0.9);
+}
+
+.price_container {
+
+	max-width: 30%;
+	margin-right: 1em;
+	padding: 0.5em;
+}
+
+.title_container h3,
+.price_container h3 {
+
+	margin: 0;
+}
+
+.stars_container {
+
+	width: 100%;
+	height: 1.5em;
+
+	display: flex;
+    justify-content: flex-end;
+
+	padding: 0 5px;
+}
+
+.fa-star {
+
+	margin-right: 5px;
+	font-size: 22px;
+	color: rgb(254, 186, 2);
+}
+/**********************************************************************/
+/******************* End Image Overflow Window ************************/
+/**********************************************************************/
+
+.user_rating_container {
+
+	min-height: 5em;
+	padding-top: 1em;
+	/*position: relative;*/
+	display: flex;
+	flex-direction: column;
+
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.ribbon_row_container {
+
+	position: relative;
+    height: 7em;
+}
+
+.ribbon_container {
+
+	min-width: 40%;
+
+	position: absolute;
+	top: 26px;
+	left: -16px;
+
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 18px;
+
+	cursor: pointer;
+}
+
+.ribbon_container:before {
+
+	content: "";
+	width: calc(100% - 32px);
+	height: 0;
+
+	position: absolute;
+	top: 3px;
+	left: 3px;
+
+	border-top: 29px solid rgba(0, 0, 0, 0.3);
+	border-bottom: 29px solid rgba(0, 0, 0, 0.3);
+	border-left: 29px solid rgba(0, 0, 0, 0.3);
+	border-right: 29px solid transparent;
+}
+
+.ribbon_container:after {
+
+	content: "";
+	width: calc(100% + 26px);
+	height: 3px;
+
+	position: absolute;
+	bottom: -3px;
+	left: 3px;
+
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.ribbon {
+
+	height: 58px;
+	padding: 0px 25px 0 35px;
+
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	color: #fff;
+	background: #0089d0;
+}
+
+.ribbon:after {
+
+	content: "";
+	width: 0;
+	height: 0;
+
+	display: block;
+	position: absolute;
+	top: -14px;
+	left: 0;
+
+	border-right: 15px solid #004a70;
+	border-top: 15px solid transparent;
+}
+
+.ribbon:before {
+
+	content: "";
+	width: 0;
+	height: 0;
+
+	position: absolute;
+	top: 0;
+	right: -28px;
+	display: block;
+
+	border-top: 29px solid #0089d0;
+	border-bottom: 29px solid #0089d0;
+	border-right: 29px solid transparent;
+	border-left: 29px solid transparent;
+}
+
+.ribbon:hover {
+
+	background: #009ff1;
+}
+
+.ribbon:hover:before {
+
+	border-top: 29px solid #009ff1;
+	border-bottom: 29px solid #009ff1;
+}
+
+.user_rating_text {
+
+	margin: 0;
+	/*padding-left: 5px;*/
+	padding: 5px 10px;
+	text-align: end;
+	font-weight: bold;
+}
+
+.user_rating_count_text {
+
+	margin: 0;
+	margin-bottom: 15px;
+	/*padding-left: 5px;*/
+	padding: 5px 10px;
+	text-align: end;
+	font-weight: bold;
+}

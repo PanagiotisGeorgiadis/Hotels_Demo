@@ -21,7 +21,7 @@ module.exports = {
     },
     output: {
         path: __dirname,
-        filename: "./public/HotelsAppBundle.jsx"
+        filename: "./public/HotelsAppBundle.js"
     },
     plugins: debug ? [] : [
         new webpack.optimize.DedupePlugin(),

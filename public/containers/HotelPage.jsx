@@ -6,9 +6,7 @@ import APIManager from "../utils/APIManager";
 
 import { getHotelsList } from "../actions/HotelsListActions";
 
-import HotelsListItem from "../components/HotelsListItem";
-
-class HotelsList extends Component {
+class HotelPage extends Component {
 
 	constructor(props) {
 		super(props);
@@ -25,12 +23,8 @@ class HotelsList extends Component {
 
 	render() {
 
-		let hotelsList = [];
-
 		return (
-			<div className = "hotels_list">
-				{ hotelsList }
-			</div>
+			<div></div>
 		);
 	}
 }
@@ -46,7 +40,7 @@ const mapStateToProps = (state) => {
 	// 	categories: state.CrudOperationReducer.categories
 	// };
 	return {
-		message: "Hallo"
+		message: "Hello"
 	}
 };
 
@@ -61,4 +55,4 @@ const mapDispatchToProps = (dispatch) => {
 	}, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HotelsList);
+export default connect(mapStateToProps, mapDispatchToProps)(HotelPage);
