@@ -13,12 +13,12 @@ module.exports = {
 
 	find: function(params, callback) {
 
-		var offset = parseInt(params.offset);
-		var limit = parseInt(params.limit);		
+		var offset = (parseInt(params.offset)) || 0;
+		var limit = parseInt(params.limit);
 		var collectionFields = "Distance EstablishmentId EstablishmentType Location MinCost Name Stars UserRating UserRatingTitle UserRatingCount ImageUrl ThumbnailUrl";
 
 		if(params)
-			HotelsModel.find(params, collectionFields, {skip: offset, limit: limit}, (err, data) => handleModelResponse(err, data, callback));
+			HotelsModel.find(params.searchValue, collectionFields, {skip: offset, limit: limit}, (err, data) => handleModelResponse(err, data, callback));
 		else
 			HotelsModel.find({}, collectionFields, {skip: offset, limit: limit}, (err, data) => handleModelResponse(err, data, callback));
 
