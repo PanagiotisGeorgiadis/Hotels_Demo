@@ -5,86 +5,12 @@
 
 	<link rel="stylesheet" type="text/css" href="/styles/font-awesome.css">
 	<link rel="stylesheet" type="text/css" href="/styles/hotel_list.css">
+
+	<meta name="viewport" content="initial-scale=0.5">
 </head>
 <body>
 	<div id="react-root"></div>
 
 	<script type="text/javascript" src="/main/HotelsAppBundle.js"></script>
-	<script type="text/javascript">
-
-		function fetchDataBlocking(url) {
-			console.log("fetchDataBlocking called!");
-			return new Promise(function(resolve, reject) {
-				
-				var xhr = new XMLHttpRequest();
-
-				xhr.onreadystatechange = function() {
-
-					if (xhr.readyState === 4) {
-
-						if(xhr.status !== 200)
-							reject("Some error occured!" + xhr.responseText);
-
-						try {
-							resolve(JSON.parse(xhr.responseText));
-						} catch(exception) {
-
-							resolve(xhr.responseText);
-						}
-					}
-				}
-
-				xhr.onerror = function() {
-					reject("Some error occured while requesting the database");
-				}
-
-				xhr.onabort = function() {
-					reject("The transfer has been canceled by the user.")
-				}
-
-				xhr.open("GET", url, true);
-				xhr.send();
-			});
-		}
-
-		function initDatabase() {
-
-			console.log("initDatabase called!");
-			// var xhr = new XMLHttpRequest();
-			// var url = "/initDatabase";
-
-			// xhr.open("GET", url, true);
-			// xhr.send();
-		}
-
-		function fetchDatabase() {
-
-			
-		}
-
-
-		fetchDataBlocking("/api/hotels")
-		.then(function(response) {
-
-			if(!response.message.length) {
-				fetchDataBlocking("/initDatabase")
-				.then(response => {
-					console.log("initDatabase finished!")
-					console.log(response);
-				})
-				.catch(error => {
-					console.error(error);
-				})
-			} else {
-
-				console.log(response.message);
-				console.log(response.message[0]);
-			}
-		})
-		.catch(function(error) {
-			console.error(error);
-		});
-
-	</script>
 </body>
 </html>
