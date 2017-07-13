@@ -4,7 +4,10 @@ const HotelsListItemImage = ({ imageSource }) => {
 
 	var backgroundImageURL = (imageSource) ? "url('" + imageSource + "')" : "";
 	return (
-		<div className = "image_container" style = {{backgroundImage: backgroundImageURL}}>
+		<div className = "image_container" >
+			<object data = { imageSource } type = "image/png">
+			    <img src = "/images/default.png" />
+			  </object>
 		</div>
 	);
 }
