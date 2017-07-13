@@ -1,4 +1,4 @@
-import { GET_HOTELS_LIST, DRAW_HOTELS_LIST,  } from "../actions/HotelsListActions";
+import { GET_HOTELS_LIST, GET_HOTELS_LIST_SUCCESS, GET_HOTELS_LIST_FAILED, DRAW_HOTELS_LIST  } from "../actions/HotelsListActions";
 
 
 export default (state = null, action) => {
@@ -11,41 +11,23 @@ export default (state = null, action) => {
 
 			break;
 
+		case GET_HOTELS_LIST_SUCCESS:
+
+			// console.log(state);
+			// console.log(action.payload.response.message);
+			updatedState.error = null;
+			updatedState.showLoadingImage = false;
+			updatedState.hotelsList = action.payload.response.message;
+			break;
+
+		case GET_HOTELS_LIST_FAILED:
+
+			updatedState.error = action.payload;
+			break;
+
 		case DRAW_HOTELS_LIST:
 
 			break;
-
-		// case UPDATE_CATEGORY_DISPLAY_NAME:
-
-		// 	break;
-
-		// case UPDATE_CATEGORY_NAME:
-
-		// 	break;
-
-		// case UPDATE_CATEGORY_TAGS:
-
-		// 	break;
-
-		// case SAVE_CATEGORY_SUCCESS:
-
-		// 	break;
-
-		// case SAVE_CATEGORY_FAILED:
-
-		// 	break;
-
-		// case GET_CATEGORIES_SUCCESS:
-
-		// 	break;
-
-		// case GET_CATEGORIES_FAILED:
-
-		// 	break;
-
-		// case DELETE_CATEGORY:
-
-		// 	break;
 	}
 
 	return updatedState;

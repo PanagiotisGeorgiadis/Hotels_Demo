@@ -1,41 +1,59 @@
 export default {
 
-	asyncGET: (url, params, callback) => {
+	fetchDataAsync: (url, callback) => {
 
 		var xhr = new XMLHttpRequest();
 		xhr.open("GET", url, true);
 
 		xhr.onreadystatechange = function() {
 
-			if(xhr.readyState == 4) {
+			if (xhr.readyState === 4) {
 
-				if(xhr.status != 200)
-					callback("Some error occured!" + xhr.responseText, null);
+				if(xhr.status !== 200)
+					reject("Some error occured!" + xhr.responseText);
 
-				callback(null, xhr.responseText);
-			}
-		}
-		xhr.send(params);
-	},
-
-	blockingGET: (url, params) => {
-
-		return new Promise((resolve, reject) => {
-
-			var xhr = new XMLHttpRequest();
-			xhr.open("GET", url, true);
-
-			xhr.onreadystatechange = () => {
-
-				if (xhr.readyState === 4) {
-
-					if(xhr.status !== 200)
-						reject(new Error("Some error occured!" + xhr.responseText));
+				try {
+					resolve(JSON.parse(xhr.responseText));
+				} catch(exception) {
 
 					resolve(xhr.responseText);
 				}
 			}
-			xhr.send(params);
+		}
+
+		xhr.onerror = () => reject("Some error occured while requesting the database");
+		xhr.onabort = () => reject("The transfer has been canceled by the user.")
+
+		xhr.send();
+	},
+
+	fetchDataBlocking: (url) => {
+
+		return new Promise(function(resolve, reject) {
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", url, true);
+
+			xhr.onreadystatechange = function() {
+
+				if (xhr.readyState === 4) {
+
+					if(xhr.status !== 200)
+						reject("Some error occured!" + xhr.responseText);
+
+					try {
+						resolve(JSON.parse(xhr.responseText));
+					} catch(exception) {
+
+						resolve(xhr.responseText);
+					}
+				}
+			}
+
+			xhr.onerror = () => reject("Some error occured while requesting the database");
+			xhr.onabort = () => reject("The transfer has been canceled by the user.");
+
+			xhr.send();
 		});
 	}
 }
