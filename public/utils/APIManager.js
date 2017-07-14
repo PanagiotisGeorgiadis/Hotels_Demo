@@ -1,6 +1,6 @@
 export default {
 
-	fetchDataAsync: (url, callback) => {
+	fetchDataAsync: (url = "/api/hotels/", callback) => {
 
 		var xhr = new XMLHttpRequest();
 		xhr.open("GET", url, true);
@@ -27,7 +27,7 @@ export default {
 		xhr.send();
 	},
 
-	fetchDataBlocking: (url) => {
+	fetchDataBlocking: (url = "/api/hotels/") => {
 
 		return new Promise(function(resolve, reject) {
 
