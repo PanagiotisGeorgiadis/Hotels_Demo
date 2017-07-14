@@ -2,4 +2,5 @@ node_modules/
 api/data/
 old/
 public/pages/index.backup.html
+public/pages/test.hmtl
 public/HotelsAppBundle.js
