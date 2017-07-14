@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import HotelsListItemImage from "./HotelsListItemImage";
 import HotelsListItemInfoContainer from "./HotelsListItemInfoContainer";
