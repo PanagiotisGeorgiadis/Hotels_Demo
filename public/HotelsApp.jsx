@@ -13,8 +13,6 @@ import initialState from "./HotelsState";
 import HotelsList from "./containers/HotelsList.jsx";
 import HotelPage from "./containers/HotelPage.jsx";
 
-import Header from "./components/Header";
-
 
 export default class HotelsApp extends Component {
 
@@ -28,7 +26,6 @@ export default class HotelsApp extends Component {
 		return(
 			<Router>
 				<div>
-					<Header headerText = { "Welcome to Hotels!" } headerStyle = {{textAlign: "center"}}/>
 					<Route exact path = "/" component = { HotelsList } />
 					<Route exact path = "/hotels/" component = { HotelsList } />
 					<Route exact path = "/hotel/:id" component = { HotelPage } />
