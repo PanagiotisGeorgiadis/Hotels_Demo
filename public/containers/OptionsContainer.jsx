@@ -12,31 +12,44 @@ class OptionsContainer extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			nameFilterValue: "None",
+			starsFilterValue: "None",
+			userRatingFilterValue: "None",
+			minCostFilterValue: "None",
+		};
+	}
+
+	applyFilters() {
+
+		let { nameFilterValue, starsFilterValue, userRatingFilterValue, minCostFilterValue } = this.state;
+		this.state.filterHotelsList({Name: nameFilterValue, Stars: starsFilterValue, UserRating: userRatingFilterValue, MinCost: minCostFilterValue});
+
+		this.state.drawInitialHotelsList(this.state.numOfInitialHotelsRender);
 	}
 
 	filterByMinCost(event) {
 
-		this.state.filterHotelsList(event.target.value, "MinCost");
-		this.state.drawInitialHotelsList(this.state.numOfInitialHotelsRender);
+		this.state.minCostFilterValue = event.target.value;
+		this.applyFilters();
 	}
 
 	filterByUserRating(event) {
 
-		this.state.filterHotelsList(event.target.value, "UserRating");
-		this.state.drawInitialHotelsList(this.state.numOfInitialHotelsRender);
+		this.state.userRatingFilterValue = event.target.value;
+		this.applyFilters();
 	}
 
 	filterByStars(event) {
 
-		this.state.filterHotelsList(event.target.value, "Stars");
-		this.state.drawInitialHotelsList(this.state.numOfInitialHotelsRender);
+		this.state.starsFilterValue = event.target.value;
+		this.applyFilters();
 	}
 
 	filterByName(event) {
 
-		this.state.filterHotelsList(event.target.value, "Name");
-		this.state.drawInitialHotelsList(this.state.numOfInitialHotelsRender);
+		this.state.nameFilterValue = event.target.value;
+		this.applyFilters();
 	}
 
 	componentWillReceiveProps(nextProps) {

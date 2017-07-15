@@ -79,38 +79,41 @@ export default (state = null, action) => {
 
 		case FILTER_HOTELS_LIST:
 
-			let targetArray = "hotelsList";
-			if(updatedState.hotelsListFiltered && updatedState.hotelsListFiltered.length)
-				targetArray = "hotelsListFiltered";
+			updatedState.hotelsListFiltered = updatedState.hotelsList.slice();
+			for(var property in action.payload.filterObject) {
 
-			if(action.payload.property === "Name") {
+				if(action.payload.filterObject[property] !== "None") {
 
-				updatedState.hotelsListFiltered = updatedState[targetArray].filter((listItem) => {
-					return listItem[action.payload.property][0] === action.payload.value;
-				});
+					if(property === "Name") {
 
-			} else if(action.payload.property === "Stars" ) {
+						updatedState.hotelsListFiltered = updatedState.hotelsListFiltered.filter((listItem) => {
+							return listItem[property][0] === action.payload.filterObject[property];
+						});
 
-				updatedState.hotelsListFiltered = updatedState[targetArray].filter((listItem) => {
-					return listItem[action.payload.property] === parseInt(action.payload.value);
-				});
+					} else if(property === "Stars") {
 
-			} else if(action.payload.property === "UserRating" || action.payload.property === "MinCost") {
+						updatedState.hotelsListFiltered = updatedState.hotelsListFiltered.filter((listItem) => {
+							return listItem[property] === parseInt(action.payload.filterObject[property]);
+						});
 
-				if(action.payload.value.includes("+")) {
+					} else if(property === "UserRating" || property === "MinCost") {
 
-					updatedState.hotelsListFiltered = updatedState[targetArray].filter((listItem) => {
-						return listItem[action.payload.property] > 1000;
-					});
+						if(action.payload.filterObject[property].includes("+")) {
 
-				} else {
+							updatedState.hotelsListFiltered = updatedState.hotelsListFiltered.filter((listItem) => {
+								return listItem[property] > 1000;
+							});
 
-					var minValue = parseInt(action.payload.value.split(" - ")[0]);
-					var maxValue = parseInt(action.payload.value.split(" - ")[1]);
+						} else {
 
-					updatedState.hotelsListFiltered = updatedState[targetArray].filter((listItem) => {
-						return listItem[action.payload.property] > (minValue - 1) && listItem[action.payload.property] < (maxValue + 1);
-					});
+							var minValue = parseInt(action.payload.filterObject[property].split(" - ")[0]);
+							var maxValue = parseInt(action.payload.filterObject[property].split(" - ")[1]);
+
+							updatedState.hotelsListFiltered = updatedState.hotelsListFiltered.filter((listItem) => {
+								return listItem[property] > (minValue - 1) && listItem[property] < (maxValue + 1);
+							});
+						}
+					}
 				}
 			}
 

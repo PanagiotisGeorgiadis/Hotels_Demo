@@ -16,7 +16,7 @@ export const DRAW_MORE_HOTELS_LIST = "DRAW/MORE/HOTELS_LIST";
 export const FILTER_HOTELS_LIST = "FILTER/HOTELS_LIST";
 export const SORT_HOTELS_LIST = "SORT/HOTELS_LIST";
 
-export const getHotelsList = (url) => {
+export const getHotelsList = (url = "/api/hotels/") => {
 
 	return (dispatch) => {
 		APIManager.fetchDataBlocking(url)
@@ -42,7 +42,7 @@ export const hideLoadingImage = () => ({
 	payload: {}
 });
 
-export const showErrorMessage = (message) => ({
+export const showErrorMessage = (message = "") => ({
 	type: SHOW_ERROR_MESSAGE,
 	payload: {
 		message
@@ -54,25 +54,24 @@ export const hideErrorMessage = () => ({
 	payload: {}
 })
 
-export const drawInitialHotelsList = (numOfHotels) => ({
+export const drawInitialHotelsList = (numOfHotels = 60) => ({
 	type: DRAW_INITIAL_HOTELS_LIST,
 	payload: {
 		numOfHotels
 	}
 });
 
-export const drawMoreHotelsList = (offset) => ({
+export const drawMoreHotelsList = (offset = 0) => ({
 	type: DRAW_MORE_HOTELS_LIST,
 	payload: {
 		offset
 	}
 });
 
-export const filterHotelsList = (value, property) => ({
+export const filterHotelsList = (filterObject = {}) => ({
 	type: FILTER_HOTELS_LIST,
 	payload: {
-		value,
-		property
+		filterObject
 	}
 });
 
