@@ -1,10 +1,12 @@
 const defaultHotelsListState = {
 	showLoadingImage: true,
+	errorMessage: null,
 	hotelsList: [],
+	hotelsListFiltered: [],
 	hotelsListSorted: [],
 	hotelsListDrawable: [],
 	hotelsListOffset: 0,
-	error: null,
+	numOfInitialHotelsRender: 60,
 }
 
 const initialState = {

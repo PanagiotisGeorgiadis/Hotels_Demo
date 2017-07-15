@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { getHotelsList, drawMoreHotelsList } from "../actions/HotelsListActions";
+import { drawLoadingImage, hideLoadingImage,
+		 getHotelsList, drawInitialHotelsList, drawMoreHotelsList } from "../actions/HotelsListActions";
 
 import HotelsListItem from "../components/HotelsListItem/HotelsListItem";
 import OptionsContainer from "./OptionsContainer.jsx";
@@ -21,14 +22,20 @@ class HotelsList extends Component {
 		if(!this.state.handleScrollInterval) {
 
 			var windowHeight = window.innerHeight;
-			if( event.target.scrollHeight * 0.99 < event.target.scrollTop + windowHeight )
+			if( event.target.scrollHeight * 0.97 < event.target.scrollTop + windowHeight )
 				this.props.drawMoreHotelsList(this.state.hotelsListDrawable.length);
 
-			this.state.handleScrollInterval = setTimeout(() => { this.state.handleScrollInterval = null; }, 100);
+			this.state.handleScrollInterval = setTimeout(() => { this.state.handleScrollInterval = null; }, 32);
 		}
 	}
 
 	componentWillReceiveProps(nextProps) {
+
+		if(!nextProps.showLoadingImage)
+			this.state.hideLoadingImage();
+
+		if(nextProps.hotelsList.length && !nextProps.hotelsListDrawable.length)
+			this.state.drawInitialHotelsList(this.state.numOfInitialHotelsRender);
 
 		this.setState({
 			...nextProps
@@ -37,6 +44,7 @@ class HotelsList extends Component {
 
 	componentWillMount() {
 
+		this.props.drawLoadingImage();
 		this.props.getHotelsList();
 		this.setState({
 			...this.props
@@ -48,7 +56,10 @@ class HotelsList extends Component {
 		if(this.state.showLoadingImage) {
 
 			return(
-				<div className = "loading_image"></div>
+				<div className = "hotels_list_container" onScroll = { this.handleScroll.bind(this) }>
+					<OptionsContainer />
+					<div className = "loading_image_container"></div>
+				</div>
 			);
 
 		} else {
@@ -78,14 +89,18 @@ const mapStateToProps = ({HotelsListReducer}) => {
 		hotelsList: HotelsListReducer.hotelsList,
 		hotelsListDrawable: HotelsListReducer.hotelsListDrawable,
 		hotelsListOffset: HotelsListReducer.hotelsListOffset,
-		error: HotelsListReducer.error,
+		errorMessage: HotelsListReducer.errorMessage,
+		numOfInitialHotelsRender: HotelsListReducer.numOfInitialHotelsRender,
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 
 	return bindActionCreators({
+		drawLoadingImage,
+		hideLoadingImage,
 		getHotelsList,
+		drawInitialHotelsList,
 		drawMoreHotelsList,
 	}, dispatch);
 }
