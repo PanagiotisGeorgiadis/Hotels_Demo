@@ -5,7 +5,6 @@ const defaultHotelsListState = {
 	hotelsListFiltered: [],
 	hotelsListSorted: [],
 	hotelsListDrawable: [],
-	hotelsListOffset: 0,
 	numOfInitialHotelsRender: 60,
 }
 
