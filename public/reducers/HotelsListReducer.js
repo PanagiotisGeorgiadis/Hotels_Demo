@@ -1,4 +1,8 @@
-import { GET_HOTELS_LIST, GET_HOTELS_LIST_SUCCESS, GET_HOTELS_LIST_FAILED, DRAW_MORE_HOTELS_LIST, FILTER_HOTELS_LIST, SORT_HOTELS_LIST  } from "../actions/HotelsListActions";
+import { DRAW_LOADING_IMAGE, HIDE_LOADING_IMAGE,
+		 DRAW_ERROR_MESSAGE, HIDE_ERROR_MESSAGE,
+		 GET_HOTELS_LIST, GET_HOTELS_LIST_SUCCESS, GET_HOTELS_LIST_FAILED,
+		 DRAW_INITIAL_HOTELS_LIST, DRAW_MORE_HOTELS_LIST, 
+		 FILTER_HOTELS_LIST, SORT_HOTELS_LIST  } from "../actions/HotelsListActions";
 
 const hotelsPerPage = 12;
 const firstPageHotels = 60;
@@ -9,76 +13,107 @@ export default (state = null, action) => {
 
 	switch(action.type) {
 
-		case GET_HOTELS_LIST:
+		case DRAW_LOADING_IMAGE:
+			updatedState.showLoadingImage = true;
+			break;
 
+		case HIDE_LOADING_IMAGE:
+			updatedState.showLoadingImage = false;
+			break;
+
+		case DRAW_ERROR_MESSAGE:
+			updatedState.showErrorMessage = true;
+			updatedState.errorMessage = action.payload.message;
+			break;
+
+		case HIDE_ERROR_MESSAGE:
+			updatedState.showErrorMessage = false;
+			updatedState.errorMessage = null;
+			break;
+
+		case GET_HOTELS_LIST:
 			break;
 
 		case GET_HOTELS_LIST_SUCCESS:
 
-			updatedState.error = null;
+			updatedState.errorMessage = null;
 			updatedState.showLoadingImage = false;
 			updatedState.hotelsList = action.payload.response.message;
-			// updatedState.hotelsListSorted = [];
-			// updatedState.hotelsListDrawable = updatedState.hotelsList.slice(0, firstPageHotels);
 			break;
 
 		case GET_HOTELS_LIST_FAILED:
 
-			updatedState.error = action.payload;
+			updatedState.errorMessage = action.payload;
 			updatedState.showLoadingImage = false;
+			break;
+
+		case DRAW_INITIAL_HOTELS_LIST:
+
+			let { numOfHotels } = action.payload;
+
+			if(updatedState.hotelsListFiltered.length)
+				updatedState.hotelsListDrawable = (updatedState.hotelsListFiltered.length > numOfHotels ) ? updatedState.hotelsListFiltered.slice(0, numOfHotels) : updatedState.hotelsListFiltered.slice(0, updatedState.hotelsListFiltered.length);
+
+			else if(updatedState.hotelsListSorted.length)
+				updatedState.hotelsListDrawable = (updatedState.hotelsListSorted.length > numOfHotels ) ? updatedState.hotelsListSorted.slice(0, numOfHotels) : updatedState.hotelsListSorted.slice(0, updatedState.hotelsListSorted.length);
+
+			else
+				updatedState.hotelsListDrawable = (updatedState.hotelsList.length > numOfHotels ) ? updatedState.hotelsList.slice(0, numOfHotels) : updatedState.hotelsList.slice(0, updatedState.hotelsList.length);
 			break;
 
 		case DRAW_MORE_HOTELS_LIST:
 
-			var { offset } = action.payload;
+			let { offset } = action.payload;
 			updatedState.offset = offset;
-			// console.log(offset);
-			// console.log(updatedState.hotelsListDrawable);
-			// updatedState.hotelsListDrawable.push(updatedState.hotelsList.slice(offset, offset + hotelsPerPage));
-			// console.log("%c DRAW_MORE_HOTELS_LIST", "font-size:24px; color: blue;");
-			// console.log(updatedState.hotelsListSorted.length);
-			// console.log(updatedState.hotelsListSorted);
-			console.log(updatedState);
 
-			if(updatedState.hotelsListSorted.length)
-				updatedState.hotelsListDrawable = (offset + hotelsPerPage <= updatedState.hotelsListSorted.length) ? updatedState.hotelsListSorted.slice(0, offset + hotelsPerPage) : updatedState.hotelsListSorted;
+			if(updatedState.hotelsListFiltered.length)
+				updatedState.hotelsListDrawable = (updatedState.hotelsListFiltered.length > offset + hotelsPerPage ) ? updatedState.hotelsListFiltered.slice(0, offset + hotelsPerPage) : updatedState.hotelsListFiltered;
+
+			else if(updatedState.hotelsListSorted.length)
+				updatedState.hotelsListDrawable = (updatedState.hotelsListSorted.length > offset + hotelsPerPage ) ? updatedState.hotelsListSorted.slice(0, offset + hotelsPerPage) : updatedState.hotelsListSorted;
+
 			else
-				updatedState.hotelsListDrawable = (offset + hotelsPerPage <= updatedState.hotelsList.length) ? updatedState.hotelsList.slice(0, offset + hotelsPerPage) : updatedState.hotelsList;
+				updatedState.hotelsListDrawable = (updatedState.hotelsList.length > offset + hotelsPerPage ) ? updatedState.hotelsList.slice(0, offset + hotelsPerPage) : updatedState.hotelsList;
 
 			break;
 
 		case FILTER_HOTELS_LIST:
 
+			let targetArray = "hotelsList";
+			if(updatedState.hotelsListFiltered && updatedState.hotelsListFiltered.length)
+				targetArray = "hotelsListFiltered";
+
 			if(action.payload.property === "Name") {
 
-				updatedState.hotelsListSorted = updatedState.hotelsList.filter((listItem) => {
+				updatedState.hotelsListFiltered = updatedState[targetArray].filter((listItem) => {
 					return listItem[action.payload.property][0] === action.payload.value;
 				});
 
-			} else if(action.payload.property === "Stars" ){
+			} else if(action.payload.property === "Stars" ) {
 
-				updatedState.hotelsListSorted = updatedState.hotelsList.filter((listItem) => {
-					return listItem[action.payload.property] === action.payload.value;
+				updatedState.hotelsListFiltered = updatedState[targetArray].filter((listItem) => {
+					return listItem[action.payload.property] === parseInt(action.payload.value);
 				});
 
 			} else if(action.payload.property === "UserRating" || action.payload.property === "MinCost") {
 
-				if(!action.payload.value.includes("+")) {
+				if(action.payload.value.includes("+")) {
 
-					updatedState.hotelsListSorted = updatedState.hotelsList.filter((listItem) => {
+					updatedState.hotelsListFiltered = updatedState[targetArray].filter((listItem) => {
 						return listItem[action.payload.property] > 1000;
 					});
 
 				} else {
 
-					var minValue = action.payload.value.split(" - ")[0];
-					var maxValue = action.payload.value.split(" - ")[1];
+					var minValue = parseInt(action.payload.value.split(" - ")[0]);
+					var maxValue = parseInt(action.payload.value.split(" - ")[1]);
 
-					updatedState.hotelsListSorted = updatedState.hotelsList.filter((listItem) => {
-						return listItem[action.payload.property] > (minValue-1) && listItem[action.payload.property] < (maxValue+1);
+					updatedState.hotelsListFiltered = updatedState[targetArray].filter((listItem) => {
+						return listItem[action.payload.property] > (minValue - 1) && listItem[action.payload.property] < (maxValue + 1);
 					});
 				}
 			}
+
 			break;
 
 		case SORT_HOTELS_LIST:
