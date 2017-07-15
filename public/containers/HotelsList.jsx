@@ -62,6 +62,15 @@ class HotelsList extends Component {
 				</div>
 			);
 
+		} else if(this.state.showErrorMessage) {
+
+			return (
+				<div className = "hotels_list_container" onScroll = { this.handleScroll.bind(this) }>
+					<OptionsContainer />
+					<div className = "error_message_container"> { this.state.errorMessage } </div>
+				</div>
+			);
+
 		} else {
 
 			let hotelListItems = this.state.hotelsListDrawable.map((listItem, iterator) => {
@@ -86,10 +95,11 @@ const mapStateToProps = ({HotelsListReducer}) => {
 
 	return {
 		showLoadingImage: HotelsListReducer.showLoadingImage,
+		showErrorMessage: HotelsListReducer.showErrorMessage,
+		errorMessage: HotelsListReducer.errorMessage,
 		hotelsList: HotelsListReducer.hotelsList,
 		hotelsListDrawable: HotelsListReducer.hotelsListDrawable,
-		hotelsListOffset: HotelsListReducer.hotelsListOffset,
-		errorMessage: HotelsListReducer.errorMessage,
+		
 		numOfInitialHotelsRender: HotelsListReducer.numOfInitialHotelsRender,
 	}
 };

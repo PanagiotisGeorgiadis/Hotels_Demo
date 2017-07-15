@@ -4,8 +4,7 @@ import { DRAW_LOADING_IMAGE, HIDE_LOADING_IMAGE,
 		 DRAW_INITIAL_HOTELS_LIST, DRAW_MORE_HOTELS_LIST, 
 		 FILTER_HOTELS_LIST, SORT_HOTELS_LIST  } from "../actions/HotelsListActions";
 
-const hotelsPerPage = 12;
-const firstPageHotels = 60;
+const hotelsPerPage = 24;
 
 export default (state = null, action) => {
 
@@ -109,12 +108,22 @@ export default (state = null, action) => {
 							var minValue = parseInt(action.payload.filterObject[property].split(" - ")[0]);
 							var maxValue = parseInt(action.payload.filterObject[property].split(" - ")[1]);
 
+							
+
 							updatedState.hotelsListFiltered = updatedState.hotelsListFiltered.filter((listItem) => {
-								return listItem[property] > (minValue - 1) && listItem[property] < (maxValue + 1);
+								return parseFloat(listItem[property]) >= parseFloat(minValue) && parseFloat(listItem[property]) < parseFloat(maxValue) || parseFloat(listItem[property]) > parseFloat(minValue) && parseFloat(listItem[property]) <= parseFloat(maxValue);
 							});
 						}
 					}
 				}
+			}
+
+			if(!updatedState.hotelsListFiltered.length) {
+				updatedState.showErrorMessage = true;
+				updatedState.errorMessage = "Oops! We're sorry but no results were found.";
+			} else {
+				updatedState.showErrorMessage = false;
+				updatedState.errorMessage = null;
 			}
 
 			break;

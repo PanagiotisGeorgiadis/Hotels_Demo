@@ -9,7 +9,7 @@ const FilterByCostContainer = ({ filterHandler }) => {
 				<option>None</option>
 				<option>0 - 250</option>
 				<option>251 - 500</option>
-				<option>501 - 751</option>
+				<option>501 - 750</option>
 				<option>751 - 1000</option>
 				<option>1000+</option>
 			</select>
