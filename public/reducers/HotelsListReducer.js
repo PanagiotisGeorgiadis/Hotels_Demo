@@ -58,6 +58,7 @@ export default (state = null, action) => {
 
 			else
 				updatedState.hotelsListDrawable = (updatedState.hotelsList.length > numOfHotels ) ? updatedState.hotelsList.slice(0, numOfHotels) : updatedState.hotelsList.slice(0, updatedState.hotelsList.length);
+
 			break;
 
 		case DRAW_MORE_HOTELS_LIST:
@@ -78,7 +79,11 @@ export default (state = null, action) => {
 
 		case FILTER_HOTELS_LIST:
 
-			updatedState.hotelsListFiltered = updatedState.hotelsList.slice();
+			if(updatedState.hotelsListSorted.length)
+				updatedState.hotelsListFiltered = updatedState.hotelsListSorted.slice();
+			else
+				updatedState.hotelsListFiltered = updatedState.hotelsList.slice();
+
 			for(var property in action.payload.filterObject) {
 
 				if(action.payload.filterObject[property] !== "None") {
@@ -108,8 +113,6 @@ export default (state = null, action) => {
 							var minValue = parseInt(action.payload.filterObject[property].split(" - ")[0]);
 							var maxValue = parseInt(action.payload.filterObject[property].split(" - ")[1]);
 
-							
-
 							updatedState.hotelsListFiltered = updatedState.hotelsListFiltered.filter((listItem) => {
 								return parseFloat(listItem[property]) >= parseFloat(minValue) && parseFloat(listItem[property]) < parseFloat(maxValue) || parseFloat(listItem[property]) > parseFloat(minValue) && parseFloat(listItem[property]) <= parseFloat(maxValue);
 							});
@@ -129,6 +132,45 @@ export default (state = null, action) => {
 			break;
 
 		case SORT_HOTELS_LIST:
+
+			let { property } = action.payload;
+			if(property !== "None") {
+
+				if(updatedState.hotelsListFiltered.length) {
+
+					updatedState.hotelsListSorted = updatedState.hotelsListFiltered.slice();
+					updatedState.hotelsListFiltered = [];
+				} else {
+					updatedState.hotelsListSorted = updatedState.hotelsList.slice();
+				}
+
+				if(property === "Name")
+					updatedState.hotelsListSorted.sort((a, b) => {
+
+						let nameA = a.Name.toUpperCase();
+						let nameB = b.Name.toUpperCase();
+						if(nameA < nameB)
+							return -1;
+						if(nameA > nameB)
+							return 1;
+						return 0;
+					});
+				else
+					updatedState.hotelsListSorted.sort((a, b) => {
+
+						let valueA = parseFloat(a[property]);
+						let valueB = parseFloat(b[property]);
+						if(valueA < valueB)
+							return -1;
+						if(valueA > valueB)
+							return 1;
+						return 0;
+					});
+
+			} else {
+
+				updatedState.hotelsListSorted = [];
+			}
 
 			break;
 	}

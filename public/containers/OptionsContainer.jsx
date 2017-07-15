@@ -20,11 +20,17 @@ class OptionsContainer extends Component {
 		};
 	}
 
+	sortHotelsListHandler(event) {
+
+		this.state.sortHotelsList(event.target.value);
+		this.state.drawInitialHotelsList(this.state.numOfInitialHotelsRender);
+	}
+
 	applyFilters() {
 
 		let { nameFilterValue, starsFilterValue, userRatingFilterValue, minCostFilterValue } = this.state;
-		this.state.filterHotelsList({Name: nameFilterValue, Stars: starsFilterValue, UserRating: userRatingFilterValue, MinCost: minCostFilterValue});
 
+		this.state.filterHotelsList({Name: nameFilterValue, Stars: starsFilterValue, UserRating: userRatingFilterValue, MinCost: minCostFilterValue});
 		this.state.drawInitialHotelsList(this.state.numOfInitialHotelsRender);
 	}
 
@@ -72,7 +78,7 @@ class OptionsContainer extends Component {
 			<div className = "options_container">
 				<Header headerClassName = { "page_header" } headerText = { "Welcome to Hotels!" } />
 				<FilterContainer filterByNameHandler = { this.filterByName.bind(this) } filterByStarsHandler = { this.filterByStars.bind(this) } filterByUserRatingHandler = { this.filterByUserRating.bind(this) } filterByCostHandler = { this.filterByMinCost.bind(this) } />
-				<SortContainer />
+				<SortContainer sortHotelsListHandler = { this.sortHotelsListHandler.bind(this) } />
 			</div>
 		)
 
