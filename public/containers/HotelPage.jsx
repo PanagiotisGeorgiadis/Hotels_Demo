@@ -36,7 +36,6 @@ class HotelPage extends Component {
 
 		if(this.state.selectedHotel) {
 
-			console.log(this.state.selectedHotel);
 			let { Name, Location, EstablishmentType, Stars, Distance, MinCost, UserRating, UserRatingCount, UserRatingTitle, ImageUrl, ThumbnailUrl } = this.state.selectedHotel;
 
 			let selectedObject = {Name, Location, EstablishmentType, Stars, Distance, MinCost, UserRating, UserRatingCount, UserRatingTitle};

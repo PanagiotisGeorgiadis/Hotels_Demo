@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 
 import { drawLoadingImage, hideLoadingImage,
 		 getHotelsList, drawInitialHotelsList, drawMoreHotelsList,
-		  } from "../actions/HotelsListActions";
+		 updateScrollPosition} from "../actions/HotelsListActions";
 
 import { updateSelectedHotel } from "../actions/HotelPageActions";
 
@@ -36,7 +36,6 @@ class HotelsList extends Component {
 
 			this.state.handleScrollInterval = setTimeout(() => { this.state.handleScrollInterval = null; }, 32);
 		}
-
 		this.state.updateScrollPosition(event.target.scrollTop);
 	}
 
@@ -60,6 +59,12 @@ class HotelsList extends Component {
 		this.setState({
 			...this.props
 		});
+	}
+
+	componentDidUpdate() {
+
+		if(this.hotels_list_container)
+			this.hotels_list_container.scrollTop = this.state.scrollPosition;
 	}
 
 	render() {
@@ -91,7 +96,7 @@ class HotelsList extends Component {
 			});
 
 			return (
-				<div className = "hotels_list_container" onScroll = { this.handleScroll.bind(this) }>
+				<div ref = {(list_container) => { this.hotels_list_container = list_container }} className = "hotels_list_container" onScroll = { this.handleScroll.bind(this) } >
 					<OptionsContainer />
 					<div className = "hotels_list">
 						{ hotelListItems }
@@ -110,8 +115,8 @@ const mapStateToProps = ({HotelsListReducer}) => {
 		errorMessage: HotelsListReducer.errorMessage,
 		hotelsList: HotelsListReducer.hotelsList,
 		hotelsListDrawable: HotelsListReducer.hotelsListDrawable,
-		
 		numOfInitialHotelsRender: HotelsListReducer.numOfInitialHotelsRender,
+		scrollPosition: HotelsListReducer.scrollPosition
 	}
 };
 
@@ -123,7 +128,8 @@ const mapDispatchToProps = (dispatch) => {
 		getHotelsList,
 		drawInitialHotelsList,
 		drawMoreHotelsList,
-		updateSelectedHotel
+		updateSelectedHotel,
+		updateScrollPosition
 	}, dispatch);
 }
 

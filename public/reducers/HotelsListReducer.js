@@ -2,7 +2,8 @@ import { DRAW_LOADING_IMAGE, HIDE_LOADING_IMAGE,
 		 DRAW_ERROR_MESSAGE, HIDE_ERROR_MESSAGE,
 		 GET_HOTELS_LIST, GET_HOTELS_LIST_SUCCESS, GET_HOTELS_LIST_FAILED,
 		 DRAW_INITIAL_HOTELS_LIST, DRAW_MORE_HOTELS_LIST, 
-		 FILTER_HOTELS_LIST, SORT_HOTELS_LIST  } from "../actions/HotelsListActions";
+		 FILTER_HOTELS_LIST, SORT_HOTELS_LIST,
+		 UPDATE_SCROLL_POSITION } from "../actions/HotelsListActions";
 
 const hotelsPerPage = 24;
 
@@ -172,6 +173,11 @@ export default (state = null, action) => {
 				updatedState.hotelsListSorted = [];
 			}
 
+			break;
+
+		case UPDATE_SCROLL_POSITION: 
+
+			updatedState.scrollPosition = action.payload.scrollPosition;
 			break;
 	}
 

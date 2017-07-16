@@ -16,6 +16,8 @@ export const DRAW_MORE_HOTELS_LIST = "DRAW/MORE/HOTELS_LIST";
 export const FILTER_HOTELS_LIST = "FILTER/HOTELS_LIST";
 export const SORT_HOTELS_LIST = "SORT/HOTELS_LIST";
 
+export const UPDATE_SCROLL_POSITION = "UPDATE/SCROLL_POSITION";
+
 export const getHotelsList = (url = "/api/hotels/") => {
 
 	return (dispatch) => {
@@ -43,7 +45,7 @@ export const hideLoadingImage = () => ({
 });
 
 export const showErrorMessage = (message = "") => ({
-	type: SHOW_ERROR_MESSAGE,
+	type: DRAW_ERROR_MESSAGE,
 	payload: {
 		message
 	}
@@ -79,6 +81,13 @@ export const sortHotelsList = (property) => ({
 	type: SORT_HOTELS_LIST,
 	payload: {
 		property
+	}
+});
+
+export const updateScrollPosition = (scrollPosition) => ({
+	type: UPDATE_SCROLL_POSITION,
+	payload: {
+		scrollPosition
 	}
 });
 

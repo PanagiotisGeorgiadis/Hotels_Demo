@@ -6,7 +6,8 @@ const defaultHotelsListState = {
 	hotelsListSorted: [],
 	hotelsListDrawable: [],
 	numOfInitialHotelsRender: 60,
-	selectedHotelListItem: null
+	selectedHotelListItem: null,
+	scrollPosition: 0,
 }
 
 const initialState = {
