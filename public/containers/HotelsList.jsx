@@ -55,6 +55,8 @@ class HotelsList extends Component {
 
 	componentWillMount() {
 
+		console.log("componentWillMount called!");
+
 		if(!this.props.hotelsList.length) {
 
 			this.props.drawLoadingImage();
@@ -63,6 +65,12 @@ class HotelsList extends Component {
 		this.setState({
 			...this.props
 		});
+	}
+
+	componentDidMount() {
+
+		if(this.hotels_list_container)
+			this.hotels_list_container.scrollTop = this.state.scrollPosition;
 	}
 
 	componentDidUpdate() {
