@@ -6,12 +6,16 @@ const defaultHotelsListState = {
 	hotelsListSorted: [],
 	hotelsListDrawable: [],
 	numOfInitialHotelsRender: 60,
+	selectedHotelListItem: null
 }
 
 const initialState = {
 
 	HotelsListReducer: {
 		...defaultHotelsListState,
+	},
+	HotelPageReducer: {
+		selectedHotelListItem: defaultHotelsListState.selectedHotelListItem
 	},
 };
 

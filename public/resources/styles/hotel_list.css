@@ -42,6 +42,11 @@ body {
 	border: 1px solid #a6a6a6;
 }
 
+.hotel_list_item a {
+
+	text-decoration: none;
+}
+
 .image_container {
 
 	/*width: 400px;
@@ -148,6 +153,7 @@ body {
 	display: flex;
 	flex-direction: column;
 
+	color: black;
 	background: rgba(0, 0, 0, 0.05);
 }
 

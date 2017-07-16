@@ -3,8 +3,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { drawLoadingImage, hideLoadingImage,
-		 getHotelsList, drawInitialHotelsList, drawMoreHotelsList } from "../actions/HotelsListActions";
+		 getHotelsList, drawInitialHotelsList, drawMoreHotelsList,
+		  } from "../actions/HotelsListActions";
 
+import { updateSelectedHotel } from "../actions/HotelPageActions";
+
+import ErrorMessage from "../components/Generic/ErrorMessage";
 import HotelsListItem from "../components/HotelsListItem/HotelsListItem";
 import OptionsContainer from "./OptionsContainer.jsx";
 
@@ -17,6 +21,11 @@ class HotelsList extends Component {
 		};
 	}
 
+	updateSelectedHotel(hotelListItem, event) {
+
+		this.state.updateSelectedHotel(hotelListItem);
+	}
+
 	handleScroll(event) {
 
 		if(!this.state.handleScrollInterval) {
@@ -27,6 +36,8 @@ class HotelsList extends Component {
 
 			this.state.handleScrollInterval = setTimeout(() => { this.state.handleScrollInterval = null; }, 32);
 		}
+
+		this.state.updateScrollPosition(event.target.scrollTop);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -65,9 +76,9 @@ class HotelsList extends Component {
 		} else if(this.state.showErrorMessage) {
 
 			return (
-				<div className = "hotels_list_container" onScroll = { this.handleScroll.bind(this) }>
+				<div className = "hotels_list_container" onScroll = { scrollHandler }>
 					<OptionsContainer />
-					<div className = "error_message_container"> { this.state.errorMessage } </div>
+					<ErrorMessage errorMessageText = { this.state.errorMessage } />
 				</div>
 			);
 
@@ -75,7 +86,7 @@ class HotelsList extends Component {
 
 			let hotelListItems = this.state.hotelsListDrawable.map((listItem, iterator) => {
 				return (
-					<HotelsListItem key = { iterator } imageSource = { listItem.ImageUrl } titleText = { listItem.Name } locationText = { listItem.Location } priceText = { "£" + listItem.MinCost } numOfStars = { listItem.Stars } userRatingTitle = { listItem.UserRatingTitle } userRatingScore = { listItem.UserRating } userRatingCount = { listItem.UserRatingCount } />
+					<HotelsListItem key = { iterator } imageSource = { listItem.ImageUrl } titleText = { listItem.Name } locationText = { listItem.Location } priceText = { "£" + listItem.MinCost } numOfStars = { listItem.Stars } userRatingTitle = { listItem.UserRatingTitle } userRatingScore = { listItem.UserRating } userRatingCount = { listItem.UserRatingCount } establishmentId = { listItem.EstablishmentId } onClickHandler = { this.updateSelectedHotel.bind(this, listItem) }/>
 				);
 			});
 
@@ -112,6 +123,7 @@ const mapDispatchToProps = (dispatch) => {
 		getHotelsList,
 		drawInitialHotelsList,
 		drawMoreHotelsList,
+		updateSelectedHotel
 	}, dispatch);
 }
 
