@@ -1,6 +1,6 @@
 {
   "name": "Hotels",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "This is a data representation template for hotels.",
   "main": "index.js",
   "scripts": {
