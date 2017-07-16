@@ -17,6 +17,7 @@ class HotelsList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			hotelsList: [],
 			handleScrollInterval: null,
 		};
 	}
@@ -54,8 +55,11 @@ class HotelsList extends Component {
 
 	componentWillMount() {
 
-		this.props.drawLoadingImage();
-		this.props.getHotelsList();
+		if(!this.props.hotelsList.length) {
+
+			this.props.drawLoadingImage();
+			this.props.getHotelsList();
+		}
 		this.setState({
 			...this.props
 		});
